@@ -51,6 +51,8 @@ class project2_grader:
         self.eng_analysis_grade = 50
         self.decision_matrix_grade = 25
         self.grade_notes = []
+        self.eng_analysis_notes = []
+        self.decision_matrix_notes = []
         self.graded = False
         
         #create solution
@@ -316,6 +318,7 @@ class project2_grader:
             if not(self.is_within_tolerance(stud_resolution, soln_resolution, 0.005)):
                 self.grade -= 2
                 self.eng_analysis_grade -= 2
+                self.eng_analysis_notes.append('Incorrect ADC resolution for Proposal %d (-2pts)' % prop_num)
                 self.grade_notes.append('Incorrect ADC resolution for Proposal %d (-2pts)' % prop_num)
             #Storage duration (round to 1 decimal place)
             stud_storage_duration = round(self.str_to_float(self.table2_df.loc[i,'Storage Duration']),1)
@@ -323,6 +326,7 @@ class project2_grader:
             if not(self.is_within_tolerance(stud_storage_duration, soln_storage_duration, 0.01)):
                 self.grade -= 2
                 self.eng_analysis_grade -= 2
+                self.eng_analysis_notes.append('Incorrect Storage Duration for Proposal %d (-2pts)' % prop_num)
                 self.grade_notes.append('Incorrect Storage Duration for Proposal %d (-2pts)' % prop_num)
             #Duration for upload (round to 1 decimal place)
             stud_upload_duration = round(self.str_to_float(self.table2_df.loc[i,'Duration to Upload']),1)
@@ -330,6 +334,7 @@ class project2_grader:
             if not(self.is_within_tolerance(stud_upload_duration, soln_upload_duration, 0.01)):
                 self.grade -= 2
                 self.eng_analysis_grade -= 2
+                self.eng_analysis_notes.append('Incorrect Duration to Upload for Proposal %d (-2pts)' % prop_num) 
                 self.grade_notes.append('Incorrect Duration to Upload for Proposal %d (-2pts)' % prop_num) 
             #System cost (round to nearest integer)
             stud_cost = round(self.str_to_float(self.table2_df.loc[i,'Total System Cost']))
@@ -337,6 +342,7 @@ class project2_grader:
             if not(self.is_within_tolerance(stud_cost, soln_cost, 0.00001)):
                 self.grade -= 2
                 self.eng_analysis_grade -= 2
+                self.eng_analysis_notes.append('Incorrect Total System Cost for Proposal %d (-2pts)' % prop_num)
                 self.grade_notes.append('Incorrect Total System Cost for Proposal %d (-2pts)' % prop_num)
             #Adjudication (text)
             stud_adjud = str(self.table2_df.loc[i,'Adjudication']).lower()
@@ -345,20 +351,24 @@ class project2_grader:
             if stud_adjud == soln_adjud:
                 pass
             elif stud_adjud == cfd_adjud:
+                self.eng_analysis_notes.append('CFD Adjudication for Proposal %d' % prop_num)
                 self.grade_notes.append('CFD Adjudication for Proposal %d' % prop_num)
             else:
                 self.grade -= 3
                 self.eng_analysis_grade -= 3
+                self.eng_analysis_notes.append('Incorrect Adjudication for Proposal %d (-3pts)' % prop_num)    
                 self.grade_notes.append('Incorrect Adjudication for Proposal %d (-3pts)' % prop_num)    
                 
         #table 3 weights
         if self.stud_cost_weight != 0.75:
             self.grade -= 1
             self.decision_matrix_grade -= 1
+            self.decision_matrix_notes.append('Incorrect cost weight (-1pt)')
             self.grade_notes.append('Incorrect cost weight (-1pt)')
         if self.stud_mtbf_weight != 0.25:
             self.grade -= 1
             self.decision_matrix_grade -= 1
+            self.decision_matrix_notes.append('Incorrect MTBF weight (-1pt)')
             self.grade_notes.append('Incorrect MTBF weight (-1pt)')
         
         #table 3
@@ -374,8 +384,8 @@ class project2_grader:
             else:
                 self.grade -= 1
                 self.decision_matrix_grade -= 1
-                self.grade_notes.append('Incorrect cost raw value for %s (does not match table 2) (-1pt)' \
-                                        % proposal)
+                self.decision_matrix_notes.append('Incorrect cost raw value for %s (does not match table 2) (-1pt)' % proposal)
+                self.grade_notes.append('Incorrect cost raw value for %s (does not match table 2) (-1pt)' % proposal)
             #cost normalized value (round to three decimal places)
             stud_cost_norm = round(self.table3_df.loc[i,'Norm'],3)
             cfd_cost_norm = round(self.table3_cfd.loc[i,'Norm'],3)
@@ -384,6 +394,7 @@ class project2_grader:
             else:
                 self.grade -= 1
                 self.decision_matrix_grade -= 1
+                self.decision_matrix_notes.append('Incorrect Cost norm value for %s (-1pt)' % proposal)
                 self.grade_notes.append('Incorrect Cost norm value for %s (-1pt)' % proposal)
             #cost weighted value (round to three decimal places)
             stud_cost_weight = round(self.table3_df.loc[i,'Weighted'],3)
@@ -393,6 +404,7 @@ class project2_grader:
             else:
                 self.grade -= 1
                 self.decision_matrix_grade -= 1
+                self.decision_matrix_notes.append('Incorrect Cost weighted value for %s (-1pt)' % proposal)
                 self.grade_notes.append('Incorrect Cost weighted value for %s (-1pt)' % proposal)
             #MTBF norm value (round to three decimal places)
             stud_mtbf_norm = round(self.table3_df.loc[i,'Norm.1'],3)
@@ -402,6 +414,7 @@ class project2_grader:
             else:
                 self.grade -= 1
                 self.decision_matrix_grade -= 1
+                self.decision_matrix_notes.append('Incorrect MTBF norm value for %s (-1pt)' % proposal)  
                 self.grade_notes.append('Incorrect MTBF norm value for %s (-1pt)' % proposal)  
             #MTBF weighted value (round to three decimal places)
             stud_mtbf_weight = round(self.table3_df.loc[i,'Weighted.1'],3)
@@ -411,6 +424,7 @@ class project2_grader:
             else:
                 self.grade -= 1
                 self.decision_matrix_grade -= 1
+                self.decision_matrix_notes.append('Incorrect MTBF weighted value for %s (-1pt)' % proposal) 
                 self.grade_notes.append('Incorrect MTBF weighted value for %s (-1pt)' % proposal) 
             #total weighted value (round to three decimal places)
             stud_total = round(self.table3_df.loc[i,'Total'],3)
@@ -420,6 +434,7 @@ class project2_grader:
             else:
                 self.grade -= 1
                 self.decision_matrix_grade -= 1
+                self.decision_matrix_notes.append('Incorrect Total weighted value for %s (-1pt)' % proposal)
                 self.grade_notes.append('Incorrect Total weighted value for %s (-1pt)' % proposal)
             #awarded
             stud_awarded = str(self.table3_df.loc[i,'Award Contract']).lower()
@@ -429,6 +444,7 @@ class project2_grader:
             else:
                 self.grade -=2
                 self.decision_matrix_grade -= 2
+                self.decision_matrix_notes.append('Incorrect "Award Contract" for %s (-2pts)' % proposal)
                 self.grade_notes.append('Incorrect "Award Contract" for %s (-2pts)' % proposal)
                 
         #table 4
@@ -443,6 +459,7 @@ class project2_grader:
         else:
             self.grade -= 2
             self.eng_analysis_grade -= 2
+            self.eng_analysis_notes.append('Incorrect gain in table 4 (-2pts)')     
             self.grade_notes.append('Incorrect gain in table 4 (-2pts)')     
         #bias - (round to 3 decimal places)
         stud_table4_bias = round(self.str_to_float(self.table4_df.loc[0,'Bias']),3)
@@ -452,6 +469,7 @@ class project2_grader:
         else:
             self.grade -= 2
             self.eng_analysis_grade -= 2
+            self.eng_analysis_notes.append('Incorrect bias in table 4 (-2pts)')   
             self.grade_notes.append('Incorrect bias in table 4 (-2pts)')   
         #filter type - string
         stud_table4_filt = str(self.table4_df.loc[0,'Filter Type']).lower()
@@ -461,6 +479,7 @@ class project2_grader:
         else:
             self.grade -= 2
             self.eng_analysis_grade -= 2
+            self.eng_analysis_notes.append('Incorrect filter type in table 4 (-2pts)')   
             self.grade_notes.append('Incorrect filter type in table 4 (-2pts)')   
         #cutoff freq - (round to one decimal place)
         stud_table4_cutoff = round(self.str_to_float(self.table4_df.loc[0,'fc/o']),1)
@@ -470,6 +489,7 @@ class project2_grader:
         else:
             self.grade -= 2
             self.eng_analysis_grade -= 2
+            self.eng_analysis_notes.append('Incorrect cutoff frequency in table 4 (-2pts)')   
             self.grade_notes.append('Incorrect cutoff frequency in table 4 (-2pts)')   
         #cutoff freq - (round to 11 decimal places)
         stud_table4_cap = round(self.str_to_float(self.table4_df.loc[0,'Capacitance']),11)
@@ -479,6 +499,7 @@ class project2_grader:
         else:
             self.grade -= 2
             self.eng_analysis_grade -= 2
+            self.eng_analysis_notes.append('Incorrect capacitance in table 4 (-2pts)')  
             self.grade_notes.append('Incorrect capacitance in table 4 (-2pts)')  
         #binary output - must be within 1% tolerance of decimal number and binary string must 
         #be correct length
@@ -492,6 +513,7 @@ class project2_grader:
         else:
             self.grade -= 2
             self.eng_analysis_grade -= 2
+            self.eng_analysis_notes.append('Incorrect binary output in table 4 (-2pts)')  
             self.grade_notes.append('Incorrect binary output in table 4 (-2pts)')  
             #print('student binary, cfd binary: ', stud_table4_bin, cfd_table4_bin)
             #print('student decimal, cfd decimal: ', stud_table4_dec, cfd_table4_dec)
@@ -505,7 +527,7 @@ class project2_grader:
             self.grade_notes.append('Late penalty of -25% off available points (-' + str(late_penalty) + 'pts)')
         #set graded flag to true so we know we can trust graded values    
         self.graded = True 
-        return (self.eng_analysis_grade, self.decision_matrix_grade, self.grade_notes)
+        return (self.eng_analysis_grade, self.decision_matrix_grade, self.grade_notes, self.eng_analysis_notes, self.decision_matrix_notes)
 
 #pull in proposal information and clean it so that it is all in same units
 df_proposals = pd.read_excel(proposals_filename, sheet_name = "Table 1 Design Proposals", header=3, \
@@ -570,10 +592,9 @@ df_table4.rename(columns={'Bias (mV)': 'Bias', 'fc/o (kHz)': 'fc/o', \
 
 #run grader
 grader = project2_grader(df_table2, df_weights, df_table3, df_table4, df_proposals, df_requirements)
-eng_grade, dm_grade, grade_notes = grader.calc_grade(late)
+eng_grade, dm_grade, grade_notes, eng_analysis_notes, decision_matrix_notes = grader.calc_grade(late)
 
 output = {
-    "output": '\n'.join(grade_notes),
     "visibility": "after_published", 
     "stdout_visibility": "hidden",
     "extra_data": {
@@ -585,14 +606,14 @@ output = {
     [{
         "score": eng_grade, 
         "max_score": 50, 
-        "output": "Engineering Analysis",
+        "output": '\n'.join(eng_analysis_notes),
         "tags": ["Engineering Analysis"], 
         "visibility": "after_published"
     },
     {
         "score": dm_grade, 
         "max_score": 25, 
-        "output": "Decision Matrix",
+        "output": '\n'.join(decision_matrix_notes),
         "tags": ["Decision Matrix"], 
         "visibility": "after_published"
     }]
