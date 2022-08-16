@@ -1,10 +1,14 @@
 # excel-autograder
 A Gradescope autograder for excel documents.
 
-Our students do an engineering project that, by long custom, requires the use of a spreadsheet to calculate and submit answers. A couple years back, one of our more enterprising instructors wrote an autograder in standalone python, but sharing it was difficult because our university-provided computers don’t all play nice with jupyter notebook, which he used. I realized that Gradescope “programming assignments” don’t actually need to be programming-related at all – from the docs, “Students can submit … files of any file type”. That means that his python script, which uses pandas to read & grade Excel spreadsheets, could work!
+GS "Programming" assignments accept files of any type, so there's no reason they have to be constrained to just executable code. This is an example of using python (with openpyxl) to grade student responses in an excel spreadsheet format.
 
-I updated the filepaths, and changed the output format to JSON as explained in the documentation.
+Thanks to Joel and Chimi in Customer Support for answering some of my questions during development!
 
-The end result is a GS assignment that allows students to submit their Excel workbook and get a grade immediately. 
+Our students do an engineering project that, by long custom, requires the use of a spreadsheet to calculate and submit answers. A couple years back, one of our [https://github.com/czig](more enterprising instructors) wrote an autograder in standalone python, but sharing it was difficult because our university-provided computers don’t all play nice with jupyter notebook, which he used. 
 
-This version has been sanitized of any academic content - you'll need to modify the grading logic to suit your assignment. I've included the "CFD tables" that account for partial credit, but they don't work unless you program them.
+I updated the filepaths, and changed the output format to JSON as explained in the GS documentation.
+
+The end result is a GS assignment that allows students to submit their Excel workbook and get a grade (or a format error) immediately. 
+
+This version has been sanitized of any useful academic content, so my students don't get hold of it. You'll need to modify the grading logic to suit your assignment. I've included the "CFD tables" that account for partial credit, but they won't work unless you program them.
