@@ -5,7 +5,7 @@ GS "Programming" assignments accept files of any type, so there's no reason they
 
 Thanks to Joel and Chimi in Customer Support for answering some of my questions during development!
 
-Our students do an engineering project that, by long custom, requires the use of a spreadsheet to calculate and submit answers. A couple years back, one of our [https://github.com/czig](more enterprising instructors) wrote an autograder in standalone python, but sharing it was difficult because our university-provided computers don’t all play nice with jupyter notebook, which he used. 
+Our students do an engineering project that, by long custom, requires the use of a spreadsheet to calculate and submit answers. A couple years back, one of our [more enterprising instructors](https://github.com/czig) wrote an autograder in standalone python, but sharing it was difficult because our university-provided computers don’t all play nice with jupyter notebook, which he used. 
 
 I updated the filepaths, and changed the output format to JSON as explained in the GS documentation.
 
