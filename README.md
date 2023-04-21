@@ -3,12 +3,8 @@ A Gradescope autograder for excel documents.
 
 GS "Programming" assignments accept files of any type, so there's no reason they have to be constrained to just executable code. This is an example of using python (with openpyxl) to grade student responses in an excel spreadsheet format.
 
-Thanks to Joel and Chimi in Customer Support for answering some of my questions during development!
+The autograder looks for "key.xlsx" and compares it to the student submission. Each difference is weighted and scored. Per-item output is provided to the student. 
 
-Our students do an engineering project that, by long custom, requires the use of a spreadsheet to calculate and submit answers. A couple years back, one of our [more enterprising instructors](https://github.com/czig) wrote an autograder in standalone python, but sharing it was difficult because our university-provided computers don’t all play nice with jupyter notebook, which he used. 
+The key for my assignment is not provided here, because I don't want my students to have it! Email me if you would like a sample key. You should make your own answer key, then remove the answers and distribute it as a template. Excel's "protect sheet" and "locked cell" functionality is useful for ensuring students don't create differences between the key outside of their answer boxes. You will need to update the pandas "read_excel" commands to align to your key. 
 
-I updated the filepaths, and changed the output format to JSON as explained in the GS documentation.
-
-The end result is a GS assignment that allows students to submit their Excel workbook and get a grade (or a format error) immediately. 
-
-This version has been sanitized of any useful academic content, so my students don't get hold of it. You'll need to modify the grading logic to suit your assignment. I've included the "CFD tables" that account for partial credit, but they won't work unless you program them.
+Thanks to Joel and Chimi in Customer Support for answering some of my questions during development! Also thanks to our [previous instructor](https://github.com/czig) who wrote an excel autograder for Jupyter Notebook, which served as the starting point of this project.

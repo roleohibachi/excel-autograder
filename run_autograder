@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 # Set up autograder files
-
-cp /autograder/submission/*.xlsx /autograder/source/submission.xlsx
-
 cd /autograder/source
 
+find /autograder/submission -iname "*.xlsx" -exec cp "{}" ./submission.xlsx \;
+find /autograder/submission -iname "*.txt" -exec cp "{}" ./tronview.txt \;
 python3 autograder.py
